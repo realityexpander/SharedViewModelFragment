@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.realityexpander.sharedviewmodelfragment.R
 import com.realityexpander.sharedviewmodelfragment.databinding.FragmentFirstBinding
@@ -21,6 +22,9 @@ class FirstFragment : Fragment() {
 
     // delegates to the viewModel scoped to the activity
     private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    // If using regular `by viewModel`, a new instance is created (DONT DO THIS)
+    //private val sharedViewModel: SharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
