@@ -2,12 +2,14 @@ package com.realityexpander.sharedviewmodelfragment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.realityexpander.sharedviewmodelfragment.databinding.ActivityMainBinding
-import com.realityexpander.sharedviewmodelfragment.ui.main.FirstFragment
+import com.realityexpander.sharedviewmodelfragment.ui.main.SharedViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +21,13 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Testing MainViewModelFactory
+        // Pass in `myVariable` to the viewModel
+        val mainViewModelFactory = MainViewModelFactory("the Best country")
+        val viewModel = ViewModelProvider(this, mainViewModelFactory)
+            .get(MainViewModel::class.java)
+
 
         // this is the old way (doesn't work with FragmentContainerView, works with simple <fragment>)
 //        navController = findNavController(R.id.navHostFragment)
@@ -36,5 +45,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+}
+
+
+class MainViewModel(myVariable: String): ViewModel() {
+
+    val name = myVariable
+
+    init {
+        Log.d("MainViewModel", "MainViewModel created, name: $name")
+    }
+}
+
+
+class MainViewModelFactory(private var myVariable: String) : ViewModelProvider.Factory {
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MainViewModel(myVariable) as T
+        }
+
+        throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

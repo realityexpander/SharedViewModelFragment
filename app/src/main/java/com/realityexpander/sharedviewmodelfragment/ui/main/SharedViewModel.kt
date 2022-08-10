@@ -13,3 +13,4 @@ class SharedViewModel : ViewModel() {
         _country.value = country
     }
 }
+
