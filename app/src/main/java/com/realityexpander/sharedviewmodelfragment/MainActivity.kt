@@ -23,13 +23,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Testing MainViewModelFactory
-        // Pass in `myVariable` to the viewModel
+        // To be able to Pass in `myVariable` to a viewModel, we need to create a custom factory
         val mainViewModelFactory = MainViewModelFactory("the Best country")
         val viewModel = ViewModelProvider(this, mainViewModelFactory)
             .get(MainViewModel::class.java)
 
 
-        // this is the old way (doesn't work with FragmentContainerView, works with simple <fragment>)
+        // this is the old way (doesn't work with <FragmentContainerView>, works with simple <fragment>)
 //        navController = findNavController(R.id.navHostFragment)
 
         // kind of messy, but works
